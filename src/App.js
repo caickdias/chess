@@ -16,7 +16,7 @@ function App() {
   ]
 
   return (
-    <div className="App">
+    <div className='container' style={styles.container}>
       {
         board.map(row => (
           <div style={styles.row}>
@@ -31,8 +31,16 @@ function App() {
 }
 
 const styles = {
+  container: {        
+    display: 'flex',
+    backgroundColor: 'lightGray',        
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+  },
   row: {
-    display: 'flex',    
+    display: 'flex',       
   }
 }
 

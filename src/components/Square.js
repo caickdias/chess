@@ -1,10 +1,13 @@
 import React from 'react'
 
-const Square = (index) => {
+const Square = ({ index }) => {
+    console.log(index)
   return (
-    <div style={index % 2 === 0 ? styles.light : styles.dark}>
-
-    </div>
+    <button
+        
+        style={index % 2 === 0 ? styles.light : styles.dark}
+    >
+    </button>
   )
 }
 
@@ -12,14 +15,14 @@ const styles = {
     dark: {
         width: 60,
         height: 60,
-        backgroundColor: 'gray',
-        borderWidth: 1,
+        backgroundColor: '#631616',
+        borderWidth: 0,
     },
     light: {
         width: 60,
         height: 60,
-        backgroundColor: 'white',
-        borderWidth: 1,
+        backgroundColor: '#bc8f8f',
+        borderWidth: 0,
     },
 
 }
