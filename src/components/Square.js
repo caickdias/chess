@@ -1,16 +1,21 @@
 import React from 'react'
 
 import Highlight from './Highlight';
-import { ReactComponent as Pawn } from '../assets/pieces/black/knight.svg';
 
-const Square = ({ index, Piece }) => {
+const Square = ({ index, item }) => {
     
+    console.log(item);
+    const { piece, highlight } = item;
+    const Piece = piece?.type;
+
   return (
     <button        
         style={index % 2 === 0 ? styles.light : styles.dark}
     >
-        <div style={styles.highlight}>
-            <Pawn />            
+        <div style={styles.piece}>
+        {
+          Piece && <Piece />
+        }  
         </div>
         <div style={styles.highlight}>
             <Highlight />            
@@ -43,7 +48,17 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.7,
+        opacity: 0.6,
+    },
+    piece: {
+        position: 'absolute',
+        width: 60,
+        height: 60,
+        top: 0,
+        right: 0,        
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',        
     }
 
 }
