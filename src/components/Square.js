@@ -4,9 +4,10 @@ import Highlight from './Highlight';
 
 const Square = ({ index, item }) => {
     
-    console.log(item);
     const { piece, highlight } = item;
-    const Piece = piece?.type;
+    const Piece = piece?.type?.type;
+
+    console.log(item)
 
   return (
     <button        
@@ -14,11 +15,13 @@ const Square = ({ index, item }) => {
     >
         <div style={styles.piece}>
         {
-          Piece && <Piece />
+          Piece && <Piece black={piece.side==='black'} />
         }  
         </div>
         <div style={styles.highlight}>
-            <Highlight />            
+        {
+            highlight !== 'none' ?? <Highlight />            
+        }    
         </div>
     </button>
   )
