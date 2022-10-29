@@ -7,8 +7,6 @@ const Square = ({ index, item }) => {
     const { piece, highlight } = item;
     const Piece = piece?.type?.type;
 
-    console.log(item)
-
   return (
     <button        
         style={index % 2 === 0 ? styles.light : styles.dark}
