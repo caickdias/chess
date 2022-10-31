@@ -7,7 +7,10 @@ import Square from '../src/components/Square';
 
 function App() {
 
-  const { board, setBoard, selectedSquare, setSelectedSquare, highlightedSquares, setHighlightedSquares, whitePieces, blackPieces } = useContext(AppContext);
+  const { board, setBoard, 
+    selectedSquare, setSelectedSquare, 
+    highlightedSquares, setHighlightedSquares, 
+    whitePieces, blackPieces } = useContext(AppContext);
 
   useEffect(() => {
     let currentBoard = [...board];
@@ -17,15 +20,17 @@ function App() {
   }, []);
 
   const handleOnClickSquare = (x, y, moveset) => {
-    selectedSquare === `${x}${y}` ? setSelectedSquare('') : setSelectedSquare(`${x}${y}`);
-    let highlight = moveset.map(move => `${move[0] + x}${move[1] + y}`);
-    console.log(moveset)
-    setHighlightedSquares(highlight || [])
+    const squareIndex = `${x}${y}`;
+    
+    if(selectedSquare === squareIndex){
+      setSelectedSquare('');
+      setHighlightedSquares([]);
+    } else {
+      let highlight = moveset.map(move => `${move[0] + x}${move[1] + y}`);      
+      setSelectedSquare(squareIndex);    
+      setHighlightedSquares(highlight || [])
+    }    
   }
-
-  useEffect(() => {
-    console.log(highlightedSquares);
-  }, [ highlightedSquares])
 
   return (
     <div className='container' style={styles.container}>      
@@ -35,9 +40,10 @@ function App() {
           {
             row.map((item, x) => {
               return <Square 
-                  index={x + y} 
-                  item={item} 
                   key={`${x}${y}`} 
+                  x={x}
+                  y={y}
+                  item={item} 
                   onClickSquare={handleOnClickSquare} 
                   highlight={highlightedSquares.includes(`${x}${y}`)}
                   selected={`${x}${y}` === selectedSquare}

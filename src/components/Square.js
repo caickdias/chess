@@ -2,32 +2,30 @@ import React from 'react'
 
 import Highlight from './Highlight';
 
-const Square = ({ index, item, selected=false, onClickSquare, highlight=false }) => {
+const Square = ({ x, y, item, selected=false, onClickSquare, highlight=false }) => {
     
     const { piece } = item;
+    const isLight = (x + y) % 2 === 0;
     const Piece = piece?.type?.type?.type;    
     const moveset = piece?.type?.moveset;
 
-  return (
-    <button        
-        style={index % 2 === 0 ? styles.light : styles.dark}
-        onClick={() => piece && onClickSquare(piece.x, piece.y, moveset)}
-    >
-        <div style={styles.piece}>
-        {
-          Piece && <Piece black={piece.side==='black'} />
-        }
-        
-        <span>{piece?.x}</span>
-        
-        </div>
-        <div style={styles.highlight}>
-        {
-            highlight === true && <Highlight />            
-        }    
-        </div>
-    </button>
-  )
+    return (
+        <button        
+            style={{ ...(isLight ? styles.light : styles.dark), ...(selected===true && {backgroundColor: 'yellow', opacity: 0.4}) }}
+            onClick={() => onClickSquare(x, y, moveset || [], 3)}
+        >
+            <div style={styles.piece}>
+            {
+            Piece && <Piece black={piece.side==='black'} />
+            }        
+            </div>
+            <div style={styles.highlight}>
+            {
+                highlight === true && <Highlight />            
+            }    
+            </div>
+        </button>
+    )
 }
 
 const styles = {
@@ -57,7 +55,7 @@ const styles = {
         opacity: 0.5,
     },
     piece: {
-        position: 'absolute',
+        position: 'absolute',        
         width: 60,
         height: 60,
         top: 0,

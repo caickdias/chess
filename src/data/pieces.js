@@ -23,7 +23,6 @@ const rook = {
     type: <Rook />,
     name: 'rook',
     moveset: MS.rook,
-
 }
 
 const queen = {
