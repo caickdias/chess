@@ -2,27 +2,28 @@ import React from 'react'
 
 import Highlight from './Highlight';
 
-const Square = ({ index, item, selected=false, onClickSquare }) => {
+const Square = ({ index, item, selected=false, onClickSquare, highlight=false }) => {
     
-    const { piece, highlight } = item;
+    const { piece } = item;
     const Piece = piece?.type?.type?.type;    
+    const moveset = piece?.type?.moveset;
 
   return (
     <button        
         style={index % 2 === 0 ? styles.light : styles.dark}
-        onClick={() => onClickSquare(piece.x, piece.y)}
+        onClick={() => piece && onClickSquare(piece.x, piece.y, moveset)}
     >
         <div style={styles.piece}>
         {
           Piece && <Piece black={piece.side==='black'} />
-        }  
-        {
-            selected && <p>ad</p>
         }
+        
+        <span>{piece?.x}</span>
+        
         </div>
         <div style={styles.highlight}>
         {
-            highlight !== 'none' ?? <Highlight />            
+            highlight === true && <Highlight />            
         }    
         </div>
     </button>
@@ -53,7 +54,7 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.6,
+        opacity: 0.5,
     },
     piece: {
         position: 'absolute',
