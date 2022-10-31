@@ -7,7 +7,7 @@ import Square from '../src/components/Square';
 
 function App() {
 
-  const { board, setBoard, whitePieces, blackPieces } = useContext(AppContext);
+  const { board, setBoard, selectedSquare, setSelectedSquare, whitePieces, blackPieces } = useContext(AppContext);
 
   useEffect(() => {
     let currentBoard = [...board];
@@ -16,6 +16,9 @@ function App() {
     setBoard(currentBoard);
   }, []);
 
+  const handleOnClickSquare = (x, y) => {
+    alert(`${x} ${y}`);
+  }
 
   return (
     <div className='container' style={styles.container}>      
@@ -23,7 +26,7 @@ function App() {
         board.map((row, x) => (
           <div style={styles.row} key={x}>
           {
-            row.map((item, y) => <Square index={x + y} item={item} key={`${x, y}`} />)
+            row.map((item, y) => <Square index={x + y} item={item} key={`${x}${y}`} onClickSquare={handleOnClickSquare} />)
           }
           </div>
         ))

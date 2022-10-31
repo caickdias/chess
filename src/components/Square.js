@@ -2,7 +2,7 @@ import React from 'react'
 
 import Highlight from './Highlight';
 
-const Square = ({ index, item }) => {
+const Square = ({ index, item, selected=false, onClickSquare }) => {
     
     const { piece, highlight } = item;
     const Piece = piece?.type?.type;
@@ -10,11 +10,15 @@ const Square = ({ index, item }) => {
   return (
     <button        
         style={index % 2 === 0 ? styles.light : styles.dark}
+        onClick={() => onClickSquare(piece.x, piece.y)}
     >
         <div style={styles.piece}>
         {
           Piece && <Piece black={piece.side==='black'} />
         }  
+        {
+            selected && <p>ad</p>
+        }
         </div>
         <div style={styles.highlight}>
         {

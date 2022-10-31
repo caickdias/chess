@@ -61,11 +61,12 @@ const initialBlackPieces = [
 export const AppProvider = ({ children }) => {
 
     const [board, setBoard] = useState(initialBoard);
+    const [selectedSquare, setSeletectedSquare] = useState({});
     const [whitePieces, setWhitePieces] = useState(initialWhitePieces);
     const [blackPieces, setBlackPieces] = useState(initialBlackPieces);
 
     return(
-        <AppContext.Provider value={{ board, setBoard, whitePieces, setWhitePieces, blackPieces, setBlackPieces }}>
+        <AppContext.Provider value={{ board, setBoard, selectedSquare, setSeletectedSquare, whitePieces, setWhitePieces, blackPieces, setBlackPieces }}>
             {children}
         </AppContext.Provider>
     )
