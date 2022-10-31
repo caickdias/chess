@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   const handleOnClickSquare = (x, y) => {
-    alert(`${x} ${y}`);
+    selectedSquare === `${x}${y}` ? setSelectedSquare('') : setSelectedSquare(`${x}${y}`);
   }
 
   return (
@@ -26,7 +26,15 @@ function App() {
         board.map((row, x) => (
           <div style={styles.row} key={x}>
           {
-            row.map((item, y) => <Square index={x + y} item={item} key={`${x}${y}`} onClickSquare={handleOnClickSquare} />)
+            row.map((item, y) => {
+              return <Square 
+                  index={x + y} 
+                  item={item} 
+                  key={`${x}${y}`} 
+                  onClickSquare={handleOnClickSquare} 
+                  selected={`${x}${y}` === selectedSquare}
+                />
+            })
           }
           </div>
         ))

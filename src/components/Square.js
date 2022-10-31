@@ -5,7 +5,7 @@ import Highlight from './Highlight';
 const Square = ({ index, item, selected=false, onClickSquare }) => {
     
     const { piece, highlight } = item;
-    const Piece = piece?.type?.type;
+    const Piece = piece?.type?.type?.type;    
 
   return (
     <button        
