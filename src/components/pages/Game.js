@@ -5,19 +5,23 @@ import AppContext from '../../context/Context';
 
 import Square from '../../../src/components/Square';
 
+import * as PIECES from '../../data/pieces';
+
 const socket = io("http://localhost:8001", {
   transports: ["websocket", "polling"]
 });
 
 function Game() {
 
-  const { board, setBoard, 
+  const {  
     selectedSquare, setSelectedSquare, 
     highlightedSquares, setHighlightedSquares, 
-    whitePieces, setWhitePieces,
-    blackPieces, setBlackPieces } = useContext(AppContext);
-
-  const [players, setPlayers] = useState([]);
+    } = useContext(AppContext);
+  
+  const [board, setBoard] = useState([]);
+  const [whitePieces, setWhitePieces] = useState([]);
+  const [blackPieces, setBlackPieces] = useState([]);
+  const [gameInfo, setGameInfo] = useState({});
   const username = 'test';
 
   useEffect(() => {
@@ -25,20 +29,36 @@ function Game() {
         socket.emit("username", username);      
     });
 
-    socket.on("users", players => {      
-      setPlayers(players);      
+    socket.on("gameInfo", info => {      
+      setGameInfo(info);
     });
 
-    socket.on("boardInfo", info => {
-      console.log(info);
-    });
-
-    socket.on("connected", player => {
-      setPlayers(players => [...players, player]);
-    });
+    socket.on("boardInfo", ({board, whitePieces, blackPieces }) => {
+      setBoard(board);
+      setWhitePieces(pieces => {
+        return whitePieces.map(piece => {
+          return {
+            ...piece,
+            type: {
+              ...PIECES[piece.type]
+            }
+          }
+        })
+      });
+      setBlackPieces(pieces => {
+        return blackPieces.map(piece => {
+          return {
+            ...piece,
+            type: {
+              ...PIECES[piece.type]
+            }
+          }
+        })
+      });
+    })
 
     socket.on("disconnected", id => {
-      setPlayers(players => players.filter(player => player.id !== id));
+      
     })
   }, []);
 
@@ -101,9 +121,11 @@ function Game() {
     <div className='container' style={styles.container}>   
       <div>
         {
-          players.map(player => <p>{player.id}</p>)
+          gameInfo?.white
         }
       </div>
+
+      <div>
       {
         board.map((row, y) => (
           <div style={styles.row} key={y}>
@@ -123,6 +145,13 @@ function Game() {
           </div>
         ))
       }
+      </div>
+
+      <div>
+        {
+          gameInfo?.black
+        }
+      </div>
     </div>
   );
 }
@@ -130,8 +159,8 @@ function Game() {
 const styles = {
   container: {        
     display: 'flex',
-    backgroundColor: 'lightGray',        
-    flexDirection: 'column',
+    flexDirection: 'row',
+    backgroundColor: 'lightGray',            
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch',
