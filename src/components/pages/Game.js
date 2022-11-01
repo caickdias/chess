@@ -1,8 +1,13 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 import AppContext from '../../context/Context';
 
 import Square from '../../../src/components/Square';
+
+const socket = io("http://localhost:8001", {
+  transports: ["websocket", "polling"]
+});
 
 function Game() {
 
@@ -11,6 +16,31 @@ function Game() {
     highlightedSquares, setHighlightedSquares, 
     whitePieces, setWhitePieces,
     blackPieces, setBlackPieces } = useContext(AppContext);
+
+  const [players, setPlayers] = useState([]);
+  const username = 'test';
+
+  useEffect(() => {
+    socket.on("connect", () => {
+        socket.emit("username", username);      
+    });
+
+    socket.on("users", players => {      
+      setPlayers(players);      
+    });
+
+    socket.on("boardInfo", info => {
+      console.log(info);
+    });
+
+    socket.on("connected", player => {
+      setPlayers(players => [...players, player]);
+    });
+
+    socket.on("disconnected", id => {
+      setPlayers(players => players.filter(player => player.id !== id));
+    })
+  }, []);
 
   useEffect(() => {
     let currentBoard = [...board];
@@ -65,9 +95,15 @@ function Game() {
       setHighlightedSquares(highlight || []);
     }    
   }
+  
 
   return (
-    <div className='container' style={styles.container}>      
+    <div className='container' style={styles.container}>   
+      <div>
+        {
+          players.map(player => <p>{player.id}</p>)
+        }
+      </div>
       {
         board.map((row, y) => (
           <div style={styles.row} key={y}>

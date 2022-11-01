@@ -1,12 +1,13 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const RoomCard = () => {
   return (
     <div>
-        <p>ROOM #1</p>
-        <button>
+      <p>ROOM #1</p>
+      <NavLink to='/game'>
         JOIN
-        </button>
+      </NavLink>
     </div>
   )
 }
