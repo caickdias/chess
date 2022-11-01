@@ -35,8 +35,8 @@ function Game() {
 
     socket.on("boardInfo", ({board, whitePieces, blackPieces }) => {
       setBoard(board);
-      setWhitePieces(pieces => {
-        return whitePieces.map(piece => {
+      setWhitePieces(pieces => (
+        whitePieces.map(piece => {
           return {
             ...piece,
             type: {
@@ -44,9 +44,9 @@ function Game() {
             }
           }
         })
-      });
-      setBlackPieces(pieces => {
-        return blackPieces.map(piece => {
+      ));
+      setBlackPieces(pieces => (
+        blackPieces.map(piece => {
           return {
             ...piece,
             type: {
@@ -54,7 +54,7 @@ function Game() {
             }
           }
         })
-      });
+      ));
     })
 
     socket.on("disconnected", id => {
@@ -77,31 +77,11 @@ function Game() {
       selectedSquare.piece !== piece;
 
     if(isTryingToMove){
-      let tempBoard = [...board];      
-      tempBoard[selectedSquare.piece.y][selectedSquare.piece.x].piece = null;      
-
-      if(selectedSquare.piece.side === 'white'){        
-        let pieceIndex = whitePieces.findIndex(piece => piece.id === selectedSquare.piece.id);
-        let tempWhitePieces = [...whitePieces];
-        tempWhitePieces[pieceIndex].x = x;        
-        tempWhitePieces[pieceIndex].y = y;        
-        setWhitePieces(tempWhitePieces);
-      } else {
-        let tempBlackPieces = blackPieces.map(piece =>{
-          if(piece.id === selectedSquare.piece.id){
-            return {
-              ...piece,
-              x,
-              y
-            }
-          }
-          return piece;
-        });        
-        setBlackPieces(tempBlackPieces);
-      }            
+      
+      socket.emit('move', {id: selectedSquare.piece.id, x, y});
+                          
       setSelectedSquare({});
-      setHighlightedSquares([]);
-      setBoard(tempBoard);
+      setHighlightedSquares([]);      
       return ;
     }    
 
