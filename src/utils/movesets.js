@@ -15,9 +15,7 @@ for(let x=-1; x<2; x++){
 //rook moveset
 for(let x=-7; x<8; x++){
     rook.push([x, 0]);
-}
-for(let y=-7; y<8; y++){
-    rook.push([0, y])
+    rook.push([0, x])
 }
 
 //bishop moveset

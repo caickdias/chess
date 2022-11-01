@@ -11,12 +11,15 @@ const Square = ({ x, y, item, selected=false, onClickSquare, highlight=false }) 
 
     return (
         <button        
-            style={{ ...(isLight ? styles.light : styles.dark), ...(selected===true && {backgroundColor: 'yellow', opacity: 0.4}) }}
-            onClick={() => onClickSquare(x, y, moveset || [], 3)}
+            style={{ 
+                ...(isLight ? styles.light : styles.dark), 
+                ...(selected===true && {backgroundColor: 'yellow', opacity: 0.4}) 
+            }}
+            onClick={() => onClickSquare(x, y, piece || {})}
         >
             <div style={styles.piece}>
             {
-            Piece && <Piece black={piece.side==='black'} />
+                Piece && <Piece black={piece.side==='black'} />
             }        
             </div>
             <div style={styles.highlight}>
